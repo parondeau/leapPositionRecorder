@@ -5,7 +5,6 @@ body {
   font-family: sans-serif;
   font-weight: 100;
   margin: 20px;
-  position: relative;
 }
 
 h2 {
@@ -35,7 +34,7 @@ h2 {
   height: 250px;
 }
 
-#recordButtonText {
+.innerShapeText {
   position: absolute;
   left: 0;
   bottom: 0;
@@ -59,4 +58,159 @@ h2 {
 }
 #downloadButton:hover {
   background-color: white;
+}
+#testBox {
+  height: 200px;
+  width: 200px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  background-color: #3498db;
+  text-align: center;
+  color: #222;
+  padding: 5px;
+  display: none;
+}
+#errorMessage {
+  height: 66px;
+  width: 88%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  left: 0;
+  right: 0;
+  background: rgba(0,0,0,0.6);
+  border-radius: 20px;
+  padding: 11px;
+  text-align: center;
+  color: #ddd;
+  border: 2px solid rgb(218, 45, 45);
+  display: none;
+}
+#errorCover {
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0,0,0,0.3);
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: none;
+}
+#countdownNum {
+  height: 60px;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  z-index: 301;
+  text-align: center;
+  font-size: 50px;
+  color: #333;
+}
+.wrapper {
+  position: relative;
+  background: #ddd;
+  float: right;
+  margin: 0 20px;
+  display: none;
+}
+
+.wrapper, .wrapper * {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.wrapper {
+  width: 100px;
+  height: 100px;
+}
+
+.wrapper .pie {
+  width: 50%;
+  height: 100%;
+  transform-origin: 100% 50%;
+  position: absolute;
+  background: #0088cc;
+  border: 5px solid rgba(0,0,0,0.5);
+}
+
+.wrapper .spinner {
+  border-radius: 100% 0 0 100% / 50% 0 0 50%;
+  z-index: 200;
+  border-right: none;
+  -webkit-animation: rota 10s linear infinite;
+  animation: rota 10s linear infinite;
+}
+
+.wrapper:hover .spinner,
+.wrapper:hover .filler,
+.wrapper:hover .mask {
+  -webkit-animation-play-state: running;
+  animation-play-state: running;
+}
+
+.wrapper .filler {
+  border-radius: 0 100% 100% 0 / 0 50% 50% 0;
+  left: 50%;
+  opacity: 0;
+  z-index: 100;
+  -webkit-animation: opa 10s steps(1, end) infinite reverse;
+  animation: opa 10s steps(1, end) infinite reverse;
+  border-left: none;
+}
+
+.wrapper .mask {
+  width: 50%;
+  height: 100%;
+  position: absolute;
+  background: inherit;
+  opacity: 1;
+  z-index: 300;
+  -webkit-animation: opa 10s steps(1, end) infinite;
+  animation: opa 10s steps(1, end) infinite;
+}
+
+@-webkit-keyframes rota {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes rota {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes opa {
+  0% {
+    opacity: 1;
+  }
+
+  50%, 100% {
+    opacity: 0;
+  }
+}
+@keyframes opa {
+  0% {
+    opacity: 1;
+  }
+
+  50%, 100% {
+    opacity: 0;
+  }
 }

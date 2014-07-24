@@ -1,5 +1,15 @@
 var matrix = [];
 var prevFrame = 0;
+window.onload = function() {
+  document.getElementById("recordButton").addEventListener("click", function(){
+    if (typeof Leap != "undefined") {
+      this.style.display = "none";
+      startRecording();
+    } else {
+      displayLeapError();
+    }
+  });
+}
 function getFingerName(fingerType) {
   switch(fingerType) {
     case 0:
@@ -37,6 +47,7 @@ function getFingerVar(id) {
   }
 }
 function startRecording() {
+  setupTest();
   console.log("starting recording");
   matrix = initializeMatrix(matrix);
   // asychronous call to Leap will process data at end
@@ -163,4 +174,26 @@ function poll(frame) {
       }
     }
   }
+}
+function setupTest() {
+  document.getElementById("testBox").style.display = 'block';
+  document.getElementById("countdown").style.display = 'block';
+  var i = 10;
+  setInterval(function() {
+    i--;
+    document.getElementById("countdownNum").innerHTML = i;
+    if (i == 0) {
+      clearInterval();
+      document.getElementById("testBox").style.display = 'none';
+      document.getElementById("countdown").style.display = 'none';
+    }
+  },1000);
+}
+function displayLeapError() {
+  document.getElementById("errorMessage").style.display = 'block';
+  document.getElementById("errorCover").style.display = 'block';
+  setTimeout(function() {
+    document.getElementById("errorMessage").style.display = 'none';
+    document.getElementById("errorCover").style.display = 'none';
+  }, 4000);
 }
