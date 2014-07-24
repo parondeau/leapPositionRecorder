@@ -70,7 +70,9 @@ function initializeMatrix(matrix) {
   matrix.push(["frameId"],["timestamp"],["num_hands"],["num_fingers"]);
   handPrefix = "rh_"
   for (var i=0; i<2; i++) {
-    matrix.push([handPrefix + "confidence"],[handPrefix + "pinch_st"],[handPrefix + "grab_st"]);
+    // added time visible, stab palm, palm, and velocity
+    // need to adjust indices below
+    matrix.push([handPrefix + "confidence"],[handPrefix + "time_visible"],[handPrefix + "stabilized_palm_position"],[handPrefix + "palm_position"],[handPrefix + "palm_velocity"],[handPrefix + "pinch_st"],[handPrefix + "grab_st"]);
     for (var k = 0; k < 5; k++) {
       fingerPrefix = getFingerName(k).toLowerCase();
       for (var j = 0; j < 3; j++) {
@@ -108,6 +110,7 @@ function constructCSV() {
   var csvData = 'data:application/csv;charset=utf-8,' + encodeURIComponent(csv);
   document.getElementById("downloadButton").href = csvData;
   document.getElementById("downloadButton").style.display = "block"
+  document.getElementById("recordButton").style.display = "block"
 }
 function poll(frame) {
   if (prevFrame == frame.id) { return; }
@@ -186,6 +189,7 @@ function setupTest() {
       clearInterval();
       document.getElementById("testBox").style.display = 'none';
       document.getElementById("countdown").style.display = 'none';
+      i = 10;
     }
   },1000);
 }
