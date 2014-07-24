@@ -1,0 +1,62 @@
+body {
+  background: #ddd;
+  box-sizing: border-box;
+  font-size: 22px;
+  font-family: sans-serif;
+  font-weight: 100;
+  margin: 20px;
+  position: relative;
+}
+
+h2 {
+  text-align: center;
+}
+#recordButton {
+  height: 150px;
+  width: 150px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  background-color: #3498db;
+  border-radius: 1000px;
+  text-align: center;
+  cursor: pointer;
+  -webkit-transition: all 3s ease;
+  transition: all 3s ease;
+  -webkit-transition-property: height, width;
+  transition-property: height, width;
+}
+
+#recordButton:hover {
+  width: 250px;
+  height: 250px;
+}
+
+#recordButtonText {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  top: 0;
+  right: 0;
+  margin: auto;
+  height: 64px;
+  line-height: 26px;
+  text-align: center;
+}
+#downloadButton {
+  cursor: pointer;
+  position: absolute;
+  bottom: 0px;
+  right: 0;
+  display: none;
+  border: 2px solid #3498db;
+  padding: 11px;
+  border-radius: 30px;
+  color: #3498db;
+}
+#downloadButton:hover {
+  background-color: white;
+}
