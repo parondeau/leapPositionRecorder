@@ -1,7 +1,7 @@
 var matrix = [];
 var prevFrame = 0;
-window.onload = function() {
-  document.getElementById("recordButton").addEventListener("click", function(){
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById("recordButton").addEventListener("click", function() {
     if (typeof Leap != "undefined") {
       this.style.display = "none";
       startRecording();
@@ -9,7 +9,7 @@ window.onload = function() {
       displayLeapError();
     }
   });
-}
+});
 function getFingerName(fingerType) {
   switch(fingerType) {
     case 0:
