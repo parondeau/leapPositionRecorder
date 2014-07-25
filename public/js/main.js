@@ -1,14 +1,9 @@
 var matrix = [];
 var prevFrame = 0;
+var controller = 0;
+var pollInterval = 0;
 document.addEventListener('DOMContentLoaded', function() {
-  document.getElementById("recordButton").addEventListener("click", function() {
-    if (typeof Leap != "undefined") {
-      this.style.display = "none";
-      startRecording();
-    } else {
-      displayLeapError();
-    }
-  });
+  document.getElementById("recordButton").addEventListener("click", startRecording );
 });
 function getFingerName(fingerType) {
   switch(fingerType) {
@@ -47,24 +42,31 @@ function getFingerVar(id) {
   }
 }
 function startRecording() {
-  setupTest();
-  console.log("starting recording");
-  matrix = initializeMatrix(matrix);
-  // asychronous call to Leap will process data at end
 
-  var my_controller = new Leap.Controller({enableGestures: true});
+  controller = new Leap.Controller();
+  controller.connect();
+
+// asychronous call to Leap will process data at end
+
   var frame;
-  my_controller.on("connect", function() {
-    var interval = setInterval(function() {
-      poll(my_controller.frame());
-    }, 10);
-    setTimeout(function() {
-      clearInterval(interval);
-      my_controller.disconnect();
-      constructCSV();
-    }, 10000);
+  controller.on("connect", function() {
+    console.log("starting recording");
+    matrix = initializeMatrix(matrix);
   });
-  my_controller.connect();
+  setupTest();
+
+  // setTimeout(function() {
+  //   if (!controller.connected()) {
+  //     displayLeapError();
+  //     document.getElementById("recordButton").style.display = "block";
+  //     return;
+  //   }
+  // }, 1000);
+}
+function triggerRecording() {
+  pollInterval = setInterval(function() {
+    poll(controller.frame());
+  }, 10);
 }
 function initializeMatrix(matrix) {
   matrix.push(["frameId"],["timestamp"],["num_hands"],["num_fingers"]);
@@ -72,7 +74,7 @@ function initializeMatrix(matrix) {
   for (var i=0; i<2; i++) {
     // added time visible, stab palm, palm, and velocity
     // need to adjust indices below
-    matrix.push([handPrefix + "confidence"],[handPrefix + "time_visible"],[handPrefix + "stabilized_palm_position"],[handPrefix + "palm_position"],[handPrefix + "palm_velocity"],[handPrefix + "pinch_st"],[handPrefix + "grab_st"]);
+    matrix.push([handPrefix + "confidence"],[handPrefix + "time_visible"],[handPrefix + "stabilized_palm_position x:y:z"],[handPrefix + "palm_position x:y:z"],[handPrefix + "palm_velocity x:y:z"],[handPrefix + "pinch_st"],[handPrefix + "grab_st"]);
     for (var k = 0; k < 5; k++) {
       fingerPrefix = getFingerName(k).toLowerCase();
       for (var j = 0; j < 3; j++) {
@@ -96,7 +98,11 @@ function constructCSV() {
   for (var i = 0; i < x; i++){
     for (var j = 0; j < y-1; j++){
       if (matrix[j][i] != undefined){
-        csv = csv.concat(matrix[j][i], ",");
+        if (typeof matrix[j][i] == "object") {
+          csv = csv.concat(matrix[j][i].toString().replace(/,/g, ":"), ",");
+        } else {
+          csv = csv.concat(matrix[j][i], ",");
+        }
       } else {
         csv = csv.concat("-", ",");
       }
@@ -108,9 +114,17 @@ function constructCSV() {
       }
   }
   var csvData = 'data:application/csv;charset=utf-8,' + encodeURIComponent(csv);
+  document.getElementById("loadingText").style.display = 'none';
+
   document.getElementById("downloadButton").href = csvData;
-  document.getElementById("downloadButton").style.display = "block"
-  document.getElementById("recordButton").style.display = "block"
+  document.getElementById("downloadButton").style.display = "block";
+
+  document.getElementById("recordButton").style.display = "block";
+  document.getElementById("recordButton").innerHTML = "<span class='innerShapeText'>Reload</br>Page</br>To Record</br>Again</span>";
+  document.getElementById("recordButton").removeEventListener("click", startRecording);
+  document.getElementById("recordButton").style.display = "block";
+  document.getElementById("recordButton").style.cursor = "auto";
+  document.getElementsByClassName("innerShapeText")[0].style.height = "98px";
 }
 function poll(frame) {
   if (prevFrame == frame.id) { return; }
@@ -135,7 +149,7 @@ function poll(frame) {
     switch (hand.type){
       case "left":
       // push contents of frame into array from matrix[51] - matrix[98]
-        startIndex = 52;
+        startIndex = 56;
         break;
       case "right":
       // push contents of frame into array from matrix[3] - matrix[51]
@@ -159,39 +173,55 @@ function poll(frame) {
       }
     }
     matrix[index].push(hand.confidence);
-    matrix[index+1].push(hand.pinchStrength);
-    matrix[index+2].push(hand.grabStrength);
+
+    matrix[index+1].push(hand.timeVisible);
+    matrix[index+2].push(hand.stabilizedPalmPosition);
+    matrix[index+3].push(hand.palmPosition);
+    matrix[index+4].push(hand.palmVelocity);
+
+    matrix[index+5].push(hand.pinchStrength);
+    matrix[index+6].push(hand.grabStrength);
     for (var k=0; k < hand.fingers.length; k++) {
       finger = hand.fingers[k];
       // used to shift index in matrix
       fingerType = finger.type;
       var l = 0;
       for (l; l < 3; l++) {
-        matrix[index+3 + 9*fingerType + l].push(finger.dipPosition[l]);
+        matrix[index+7 + 9*fingerType + l].push(finger.dipPosition[l]);
       }
       for (l; l < 6; l++) {
-        matrix[index+3 + 9*fingerType + l].push(finger.pipPosition[l%3]);
+        matrix[index+7 + 9*fingerType + l].push(finger.pipPosition[l%3]);
       }
       for (l; l < 9; l++) {
-        matrix[index+3 + 9*fingerType + l].push(finger.mcpPosition[l%3]);
+        matrix[index+7 + 9*fingerType + l].push(finger.mcpPosition[l%3]);
       }
     }
   }
 }
 function setupTest() {
+  document.getElementById("recordButton").style.display = "none";
   document.getElementById("testBox").style.display = 'block';
-  document.getElementById("countdown").style.display = 'block';
-  var i = 10;
-  setInterval(function() {
-    i--;
-    document.getElementById("countdownNum").innerHTML = i;
-    if (i == 0) {
-      clearInterval();
-      document.getElementById("testBox").style.display = 'none';
-      document.getElementById("countdown").style.display = 'none';
-      i = 10;
-    }
-  },1000);
+  setTimeout(function() {
+    triggerRecording();
+    document.getElementById("countdown").style.display = 'block';
+    var i = 10;
+    var interval = setInterval(function() {
+      i--;
+      document.getElementById("countdownNum").innerHTML = i;
+
+      if (i <= 0) {
+        clearInterval(interval);
+        clearInterval(pollInterval);
+        document.getElementById("loadingText").style.display = 'block';
+        document.getElementById("testBox").style.display = 'none';
+        document.getElementById("countdown").style.display = 'none';
+        controller.disconnect();
+        setTimeout(function() {
+          constructCSV();
+        }, 100);
+      }
+    },1000);
+  }, 3000);
 }
 function displayLeapError() {
   document.getElementById("errorMessage").style.display = 'block';

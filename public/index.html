@@ -1,6 +1,6 @@
 <html>
   <head>
-    <script src="http://js.leapmotion.com/leap-0.6.0-beta2.min.js"></script>
+    <script src="js/leap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <script src="js/main.js"></script>
   </head>
@@ -8,8 +8,8 @@
     <h2>Leap Motion Tracking Data Recorder</h2>
     <div id="output"></div>
     <div id="recordButton"><span class="innerShapeText">Start</br>Recording</span></div>
-    <a id="downloadButton" download="test.csv">Download Data</a>
-    <div id="testBox"><span class="innerShapeText">Point with your right hand at the square.</span></div>
+    <a id="downloadButton" download="leapData.csv">Download Data</a>
+    <div id="testBox"><span class="innerShapeText">Point with your right hand at the square</span></div>
     <div class="wrapper" id="countdown">
       <span id="countdownNum">10</span>
       <div class="pie spinner"></div>
@@ -18,5 +18,6 @@
     </div>
     <div id="errorMessage">Unable to detect the Leap Sensor, please try plugging it in again.</div>
     <div id="errorCover"></div>
+    <div id="loadingText">Processing the data please wait a few moments.</div>
   </body>
 </html>
