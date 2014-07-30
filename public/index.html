@@ -7,14 +7,19 @@
   <body>
     <h2>Leap Motion Tracking Data Recorder</h2>
     <div id="output"></div>
-    <div id="recordButton"><span class="innerShapeText">Start</br>Recording</span></div>
+    <div id="recordButton"></div>
     <a id="downloadButton" download="leapData.csv">Download Data</a>
-    <div id="testBox"><span class="innerShapeText">Point with your right hand at the square</span></div>
+    <div id="testBox"></div>
     <div class="wrapper" id="countdown">
       <span id="countdownNum">10</span>
       <div class="pie spinner"></div>
       <div class="pie filler"></div>
       <div class="mask"></div>
+    </div>
+    <div class="bottomText">
+      <span id="firstMsg">Start Recording By Clicking The Blue Circle</span>
+      <span id="midMsg" class="hide">Point with your right hand at the square</span>
+      <span id="lastMsg" class='hide'>Reload Page To Record Again</span>
     </div>
     <div id="errorMessage">Unable to detect the Leap Sensor, please try plugging it in again.</div>
     <div id="errorCover"></div>

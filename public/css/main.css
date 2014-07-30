@@ -11,8 +11,8 @@ h2 {
   text-align: center;
 }
 #recordButton {
-  height: 150px;
-  width: 150px;
+  height: 30px;
+  width: 30px;
   position: absolute;
   top: 0;
   left: 0;
@@ -23,46 +23,54 @@ h2 {
   border-radius: 1000px;
   text-align: center;
   cursor: pointer;
-  -webkit-transition: all 3s ease;
-  transition: all 3s ease;
-  -webkit-transition-property: height, width;
-  transition-property: height, width;
 }
 
-#recordButton:hover {
-  width: 250px;
-  height: 250px;
+.hide {
+  display: none;
 }
 
-.innerShapeText {
+.bottomText {
   position: absolute;
   left: 0;
   bottom: 0;
-  top: 0;
   right: 0;
-  margin: auto;
-  height: 64px;
+  display: block;
+  margin: 0 auto 20px;
   line-height: 26px;
   text-align: center;
 }
+
 #downloadButton {
-  cursor: pointer;
+  height: 20px;
+  width: 160px;
   position: absolute;
   bottom: 0px;
-  right: 0;
+  top: 0px;
+  left: 0px;
+  right: 0px;
   display: none;
+  line-height: 20px;
+  cursor: pointer;
   border: 2px solid #3498db;
   padding: 11px;
   border-radius: 30px;
   color: #3498db;
-  margin: 20px;
+  margin: auto;
+  text-align: center;
 }
+
+#downloadButton:link, #downloadButton:active, #downloadButton:visited {
+  text-decoration: none;
+}
+
 #downloadButton:hover {
   background-color: white;
+  text-decoration: none;
 }
+
 #testBox {
-  height: 200px;
-  width: 200px;
+  height: 30px;
+  width: 30px;
   position: absolute;
   left: 0;
   right: 0;

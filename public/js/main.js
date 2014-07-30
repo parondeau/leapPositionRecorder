@@ -54,14 +54,6 @@ function startRecording() {
     matrix = initializeMatrix(matrix);
   });
   setupTest();
-
-  // setTimeout(function() {
-  //   if (!controller.connected()) {
-  //     displayLeapError();
-  //     document.getElementById("recordButton").style.display = "block";
-  //     return;
-  //   }
-  // }, 1000);
 }
 function triggerRecording() {
   pollInterval = setInterval(function() {
@@ -119,12 +111,17 @@ function constructCSV() {
   document.getElementById("downloadButton").href = csvData;
   document.getElementById("downloadButton").style.display = "block";
 
-  document.getElementById("recordButton").style.display = "block";
-  document.getElementById("recordButton").innerHTML = "<span class='innerShapeText'>Reload</br>Page</br>To Record</br>Again</span>";
-  document.getElementById("recordButton").removeEventListener("click", startRecording);
-  document.getElementById("recordButton").style.display = "block";
-  document.getElementById("recordButton").style.cursor = "auto";
-  document.getElementsByClassName("innerShapeText")[0].style.height = "98px";
+  mid = document.getElementById("midMsg");
+  if (mid.classList)
+    mid.classList.add("hide");
+  else
+    mid.className = mid.className += " hide"
+
+  last = document.getElementById("lastMsg");
+  if (last.classList)
+    last.classList.remove("hide");
+  else
+    last.className = last.className.replace(new RegExp('(^|\\b)' + "hide".split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
 }
 function poll(frame) {
   if (prevFrame == frame.id) { return; }
@@ -201,6 +198,19 @@ function poll(frame) {
 function setupTest() {
   document.getElementById("recordButton").style.display = "none";
   document.getElementById("testBox").style.display = 'block';
+
+  first = document.getElementById("firstMsg");
+  if (first.classList)
+    first.classList.add("hide");
+  else
+    first.className = first.className += " hide"
+
+mid = document.getElementById("midMsg");
+  if (mid.classList)
+    mid.classList.remove("hide");
+  else
+    mid.className = mid.className.replace(new RegExp('(^|\\b)' + "hide".split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
+
   setTimeout(function() {
     triggerRecording();
     document.getElementById("countdown").style.display = 'block';
