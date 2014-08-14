@@ -1,0 +1,18 @@
+This is a guide for the Leap Motion Tracking software setup for Mac OS X.
+
+1. Install Leap Software
+	a. https://www.leapmotion.com/setup
+	b. Click download button and follow steps outlined in install process
+2. Install Afloat (Used to overlay leap motion skeletal tracker onto test)
+	a. http://infinite-labs.net/afloat/download-snowleopard
+3. Open Leap Skeletal Tracker software and ensure Leap sensor is working
+	a. There are many options and settings you can modify to change how the hands on screen are shown
+4. Open .zip package containing all test files
+5. Navigate to index.html and double click or open in a web browser
+6. Once all applications are open, navigate to the window menu item in the Skeletal Tracker software
+7. Turn the opacity down by selecting the correct option
+8. Ensure you are able to see both screens now
+9. If not try restarting Skeletal Application
+10. Now the test may begin
+11. Once the test is over there will be a large download button to extract the sensor data (in csv) recorded during the test
+12. If the csv is empty make sure that the Leap motion sensor is working properly
